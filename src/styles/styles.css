@@ -21195,6 +21195,14 @@ video {
   fill: currentColor;
 }
 
+.hover\:fill-current:hover{
+  fill: currentColor;
+}
+
+.focus\:fill-current:focus{
+  fill: currentColor;
+}
+
 .stroke-current{
   stroke: currentColor;
 }
@@ -52771,10 +52779,6 @@ video {
     background-origin: content-box;
   }
 
-  .sm\:fill-current{
-    fill: currentColor;
-  }
-
   .sm\:stroke-current{
     stroke: currentColor;
   }
@@ -83997,10 +84001,6 @@ video {
 
   .md\:bg-origin-content{
     background-origin: content-box;
-  }
-
-  .md\:fill-current{
-    fill: currentColor;
   }
 
   .md\:stroke-current{
@@ -115227,10 +115227,6 @@ video {
     background-origin: content-box;
   }
 
-  .lg\:fill-current{
-    fill: currentColor;
-  }
-
   .lg\:stroke-current{
     stroke: currentColor;
   }
@@ -146455,10 +146451,6 @@ video {
     background-origin: content-box;
   }
 
-  .xl\:fill-current{
-    fill: currentColor;
-  }
-
   .xl\:stroke-current{
     stroke: currentColor;
   }
@@ -177681,10 +177673,6 @@ video {
 
   .\32xl\:bg-origin-content{
     background-origin: content-box;
-  }
-
-  .\32xl\:fill-current{
-    fill: currentColor;
   }
 
   .\32xl\:stroke-current{
