@@ -1,11 +1,14 @@
 const addTaskInputMain = document.querySelector('#inputTask');
 const submitBtn = document.querySelector('#submitBtn');
 const form = document.querySelector('#form');
-const formData = new FormData(form);
 const taskListElement = document.querySelector('#task-list');
 const clearTaskBtn = document.querySelector('#clearTaskBtn');
 
 const taskList = [];
+
+new Sortable(taskListElement, {
+  animation: 350,
+});
 
 submitBtn.addEventListener('click', (e) => {
   e.preventDefault();
