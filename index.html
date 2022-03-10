@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/src/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="grid place-items-center">
+    <header>
+      <h1 style="left: -10000px; top: -100000px; position: absolute">
+        To Do App
+      </h1>
+    </header>
+    <main class="mt-32">
+      <h2 class="text-center text-4xl font-semibold mb-8">To Do App</h2>
+      <form id="form">
+        <div class="mb-4 flex justify-between gap-x-4">
+          <input
+            type="text"
+            class="block w-full px-3 py-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            id="inputTask"
+            placeholder="Add Task"
+            required
+          />
+          <button
+            type="submit"
+            class="capitalize border p-3 rounded text-gray-600 transition ease-in-out hover:bg-gray-200"
+            id="submitBtn"
+          >
+            add
+          </button>
+        </div>
+        <ul class="mb-4" id="task-list"></ul>
+        <button
+          class="text-center w-full mx-auto py-2 rounded transition ease-in-out hover:bg-gray-200 border"
+          type="button"
+          id="clearTaskBtn"
+        >
+          Clear all Tasks
+        </button>
+      </form>
+    </main>
+    <script src="/src/js/app.js"></script>
+  </body>
+</html>
