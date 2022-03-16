@@ -5,13 +5,12 @@ const clearTaskBtn = document.querySelector('#clearTaskBtn');
 const body = document.querySelector('#body');
 const divForm = document.querySelector('#inputForm');
 
+let modalHolder;
 let taskList = [];
 
-new Sortable(taskListElement, {
-  animation: 350,
-});
-
-let modalHolder;
+// new Sortable(taskListElement, {
+//   animation: 350,
+// });
 
 const completeTask = (taskId) => {
   const task = document.getElementById(`taskId${taskId}`);
@@ -30,20 +29,21 @@ const removeCompleteTask = (taskId) => {
 addTaskInputMain.addEventListener('input', () => {
   addTaskInputMain.classList.remove('border-red-400');
   const errorSpan = document.getElementById('errorInput');
-  divForm.removeChild(errorSpan);
-  divForm.classList.remove('mb-10');
-  divForm.classList.add('mb-4');
+  if (errorSpan) {
+    divForm.removeChild(errorSpan);
+    divForm.classList.remove('mb-10');
+    divForm.classList.add('mb-4');
+  }
 });
 
 submitBtn.addEventListener('click', (e) => {
   e.preventDefault();
   const taskId = Date.now();
   if (addTaskInputMain.value !== '') {
-    taskList.push({ value: addTaskInputMain.value, taskId, completed: false });
-    const allTasks = taskList.map(({ value, taskId }) => {
-      const task = createTask(value, taskId);
-      taskListElement.appendChild(task);
-    });
+    const newTask = { value: addTaskInputMain.value, taskId, completed: false };
+    taskList.push(newTask);
+    const task = createTask(addTaskInputMain.value, taskId);
+    taskListElement.appendChild(task);
     addTaskInputMain.value = '';
     taskList.forEach(({ taskId, value }) => {
       const editTask = document.getElementById(`edit${taskId}`);
@@ -100,6 +100,7 @@ const createTask = (value, taskId) => {
   const taskElement = document.createElement('li');
   taskElement.className =
     'p-4 border rounded hover:cursor-pointer flex justify-between align-baseline gap-x-4 w-full';
+  taskElement.id = `li${taskId}`;
 
   const div = document.createElement('div');
   div.className = 'flex w-full items-start gap-x-2 align-middle relative';
@@ -160,8 +161,7 @@ const createTask = (value, taskId) => {
 
 clearTaskBtn.addEventListener('click', () => {
   taskList.splice(0, taskList.length);
-  const allTasks = taskList.map((task) => createTask(task)).join('');
-  taskListElement.innerHTML = allTasks;
+  taskListElement.innerHTML = '';
 });
 
 const editTaskElement = (section, value, title, taskId, func) => {
@@ -261,15 +261,18 @@ function editTaskFn(editTaskId) {
   const input = document.getElementById(`input-${editTaskId}`);
   task.value = input.value;
   body.removeChild(modalHolder);
-  const allTasks = taskList
-    .map(({ value, taskId }) => createTask(value, taskId))
-    .join('');
-  taskListElement.innerHTML = allTasks;
+
+  const editedTask = createTask(task.value, editId);
+  const taskElement = document.getElementById(`li${editId}`);
+  taskListElement.removeChild(taskElement);
+  taskListElement.appendChild(editedTask);
+
   taskList.forEach(({ taskId, value }) => {
     const editTask = document.getElementById(`edit${taskId}`);
     const deleteTask = document.getElementById(`delete${taskId}`);
     const editId = editTask.id;
     const deleteId = deleteTask.id;
+
     editTask.addEventListener('click', () => {
       modalHolder = modalElement(
         `Edit Task`,
@@ -297,10 +300,12 @@ function deleteTaskFn(deleteTaskId) {
   const deleteId = deleteTaskId.split('delete')[1];
   taskList = taskList.filter(({ taskId }) => taskId !== parseInt(deleteId));
   body.removeChild(modalHolder);
-  const allTasks = taskList
-    .map(({ value, taskId }) => createTask(value, taskId))
-    .join('');
-  taskListElement.innerHTML = allTasks;
+
+  const deleteTask = createTask(task.value, deleteId);
+  const taskElement = document.getElementById(`li${deleteId}`);
+  taskListElement.removeChild(taskElement);
+  taskListElement.appendChild(deleteTask);
+
   taskList.forEach(({ taskId, value }) => {
     const editTask = document.getElementById(`edit${taskId}`);
     const deleteTask = document.getElementById(`delete${taskId}`);
