@@ -298,13 +298,13 @@ function editTaskFn(editTaskId) {
 
 function deleteTaskFn(deleteTaskId) {
   const deleteId = deleteTaskId.split('delete')[1];
-  taskList = taskList.filter(({ taskId }) => taskId !== parseInt(deleteId));
+  const task = taskList.find(({ taskId }) => taskId === parseInt(deleteId));
   body.removeChild(modalHolder);
 
-  const deleteTask = createTask(task.value, deleteId);
   const taskElement = document.getElementById(`li${deleteId}`);
   taskListElement.removeChild(taskElement);
-  taskListElement.appendChild(deleteTask);
+  taskList = taskList.filter((task) => task.taskId !== parseInt(deleteId));
+  console.log(taskList);
 
   taskList.forEach(({ taskId, value }) => {
     const editTask = document.getElementById(`edit${taskId}`);
