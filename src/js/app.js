@@ -119,10 +119,14 @@ const createTask = (value, taskId) => {
     `text-blue-400 hover:text-blue-600 `,
     '0 0 512 512'
   );
-  editSVG.onclick = function () {
+  editSVG.id = `edit${taskId}`;
+  editSVG.onclick = function (e) {
+    const svgObj = e.currentTarget.id;
+    const taskId = svgObj.split('edit')[1];
+    const task = document.getElementById(`label${taskId}`);
     modalHolder = modalElement(
       `Edit Task`,
-      value,
+      task.textContent,
       editTaskFn,
       taskId,
       editTaskElement
@@ -137,6 +141,7 @@ const createTask = (value, taskId) => {
     `text-red-400 hover:text-red-600`,
     '0 0 448 512'
   );
+  deleteSVG.id = `delete${taskId}`;
   deleteSVG.onclick = function () {
     modalHolder = modalElement(
       `Delete Task`,
@@ -150,6 +155,17 @@ const createTask = (value, taskId) => {
   taskElement.appendChild(deleteSVG);
 
   return taskElement;
+};
+
+const editTaskSVGClick = (value, taskId) => {
+  modalHolder = modalElement(
+    `Edit Task`,
+    value,
+    editTaskFn,
+    taskId,
+    editTaskElement
+  );
+  body.appendChild(modalHolder);
 };
 
 clearTaskBtn.addEventListener('click', () => {
@@ -250,12 +266,12 @@ function modalClick() {
 
 function editTaskFn(editTaskId) {
   const editId = editTaskId;
-  const task = taskList.find(({ taskId }) => taskId === parseInt(editId));
+  const editTask = taskList.find(({ taskId }) => taskId === parseInt(editId));
   const input = document.getElementById(`input-${editTaskId}`);
-  task.value = input.value;
-
+  editTask.value = input.value;
+  console.log(taskList);
   const editLabel = document.getElementById(`label${editId}`);
-  editLabel.textContent = task.value;
+  editLabel.textContent = editTask.value;
 
   document.body.removeChild(modalHolder);
 }

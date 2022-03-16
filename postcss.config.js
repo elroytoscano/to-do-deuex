@@ -8,7 +8,12 @@ module.exports = {
       preset: 'default',
     }),
     purgecss({
-      content: ['./layouts/**/*.html', './src/**/*.vue', './src/**/*.jsx'],
+      content: [
+        './src/**/*.html',
+        './src/js/**/*.js',
+        './src/**/*.vue',
+        './src/**/*.jsx',
+      ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
     }),
   ],
