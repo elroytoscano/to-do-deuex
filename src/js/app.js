@@ -45,32 +45,6 @@ submitBtn.addEventListener('click', (e) => {
     const task = createTask(addTaskInputMain.value, taskId);
     taskListElement.appendChild(task);
     addTaskInputMain.value = '';
-    taskList.forEach(({ taskId, value }) => {
-      const editTask = document.getElementById(`edit${taskId}`);
-      const deleteTask = document.getElementById(`delete${taskId}`);
-      const editId = editTask.id;
-      const deleteId = deleteTask.id;
-      editTask.addEventListener('click', () => {
-        modalHolder = modalElement(
-          `Edit Task`,
-          value,
-          editTaskFn,
-          editId,
-          editTaskElement
-        );
-        body.appendChild(modalHolder);
-      });
-      deleteTask.addEventListener('click', () => {
-        modalHolder = modalElement(
-          'Delete Task',
-          value,
-          deleteTaskFn,
-          deleteId,
-          deleteTaskElement
-        );
-        body.appendChild(modalHolder);
-      });
-    });
   } else {
     addTaskInputMain.classList.add('border-red-400');
     const errorSpan = document.createElement('span');
@@ -132,6 +106,7 @@ const createTask = (value, taskId) => {
   label.className =
     'text-sm ml-2 font-medium text-gray-900 h-4 leading-[0rem] w-full';
   label.textContent = value;
+  label.id = `label${taskId}`;
   div.appendChild(label);
 
   const outerDiv = document.createElement('div');
@@ -144,7 +119,16 @@ const createTask = (value, taskId) => {
     `text-blue-400 hover:text-blue-600 `,
     '0 0 512 512'
   );
-
+  editSVG.onclick = function () {
+    modalHolder = modalElement(
+      `Edit Task`,
+      value,
+      editTaskFn,
+      taskId,
+      editTaskElement
+    );
+    body.appendChild(modalHolder);
+  };
   taskElement.appendChild(editSVG);
 
   const deleteSVG = createSVGElement(
@@ -153,7 +137,16 @@ const createTask = (value, taskId) => {
     `text-red-400 hover:text-red-600`,
     '0 0 448 512'
   );
-
+  deleteSVG.onclick = function () {
+    modalHolder = modalElement(
+      `Delete Task`,
+      value,
+      deleteTaskFn,
+      taskId,
+      deleteTaskElement
+    );
+    body.appendChild(modalHolder);
+  };
   taskElement.appendChild(deleteSVG);
 
   return taskElement;
@@ -256,80 +249,23 @@ function modalClick() {
 }
 
 function editTaskFn(editTaskId) {
-  const editId = editTaskId.split('edit')[1];
+  const editId = editTaskId;
   const task = taskList.find(({ taskId }) => taskId === parseInt(editId));
   const input = document.getElementById(`input-${editTaskId}`);
   task.value = input.value;
-  body.removeChild(modalHolder);
 
-  const editedTask = createTask(task.value, editId);
-  const taskElement = document.getElementById(`li${editId}`);
-  taskListElement.removeChild(taskElement);
-  taskListElement.appendChild(editedTask);
+  const editLabel = document.getElementById(`label${editId}`);
+  editLabel.textContent = task.value;
 
-  taskList.forEach(({ taskId, value }) => {
-    const editTask = document.getElementById(`edit${taskId}`);
-    const deleteTask = document.getElementById(`delete${taskId}`);
-    const editId = editTask.id;
-    const deleteId = deleteTask.id;
-
-    editTask.addEventListener('click', () => {
-      modalHolder = modalElement(
-        `Edit Task`,
-        value,
-        editTaskFn,
-        editId,
-        editTaskElement
-      );
-      body.appendChild(modalHolder);
-    });
-    deleteTask.addEventListener('click', () => {
-      modalHolder = modalElement(
-        'Delete Task',
-        value,
-        deleteTaskFn,
-        deleteId,
-        deleteTaskElement
-      );
-      body.appendChild(modalHolder);
-    });
-  });
+  document.body.removeChild(modalHolder);
 }
 
 function deleteTaskFn(deleteTaskId) {
-  const deleteId = deleteTaskId.split('delete')[1];
+  const deleteId = deleteTaskId;
   const task = taskList.find(({ taskId }) => taskId === parseInt(deleteId));
-  body.removeChild(modalHolder);
 
   const taskElement = document.getElementById(`li${deleteId}`);
   taskListElement.removeChild(taskElement);
   taskList = taskList.filter((task) => task.taskId !== parseInt(deleteId));
-  console.log(taskList);
-
-  taskList.forEach(({ taskId, value }) => {
-    const editTask = document.getElementById(`edit${taskId}`);
-    const deleteTask = document.getElementById(`delete${taskId}`);
-    const editId = editTask.id;
-    const deleteId = deleteTask.id;
-    editTask.addEventListener('click', () => {
-      modalHolder = modalElement(
-        `Edit Task`,
-        value,
-        editTaskFn,
-        editId,
-        editTaskElement
-      );
-      body.appendChild(modalHolder);
-    });
-    deleteTask.addEventListener('click', () => {
-      modalHolder = modalElement(
-        'Delete Task',
-        value,
-        deleteTaskFn,
-        deleteId,
-        deleteTaskElement
-      );
-      body.appendChild(modalHolder);
-    });
-  });
+  document.body.removeChild(modalHolder);
 }
