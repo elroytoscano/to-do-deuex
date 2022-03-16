@@ -3,6 +3,7 @@ const submitBtn = document.querySelector('#submitBtn');
 const taskListElement = document.querySelector('#task-list');
 const clearTaskBtn = document.querySelector('#clearTaskBtn');
 const body = document.querySelector('#body');
+const divForm = document.querySelector('#inputForm');
 
 let taskList = [];
 
@@ -26,41 +27,59 @@ const removeCompleteTask = (taskId) => {
   task.removeChild(removeSpan);
 };
 
+addTaskInputMain.addEventListener('input', () => {
+  addTaskInputMain.classList.remove('border-red-400');
+  const errorSpan = document.getElementById('errorInput');
+  divForm.removeChild(errorSpan);
+  divForm.classList.remove('mb-10');
+  divForm.classList.add('mb-4');
+});
+
 submitBtn.addEventListener('click', (e) => {
   e.preventDefault();
   const taskId = Date.now();
-  taskList.push({ value: addTaskInputMain.value, taskId, completed: false });
-  const allTasks = taskList.map(({ value, taskId }) => {
-    const task = createTask(value, taskId);
-    taskListElement.appendChild(task);
-  });
-  addTaskInputMain.value = '';
-  taskList.forEach(({ taskId, value }) => {
-    const editTask = document.getElementById(`edit${taskId}`);
-    const deleteTask = document.getElementById(`delete${taskId}`);
-    const editId = editTask.id;
-    const deleteId = deleteTask.id;
-    editTask.addEventListener('click', () => {
-      modalHolder = modalElement(
-        `Edit Task`,
-        value,
-        editTaskFn,
-        editId,
-        editTaskElement
-      );
-      body.appendChild(modalHolder);
+  if (addTaskInputMain.value !== '') {
+    taskList.push({ value: addTaskInputMain.value, taskId, completed: false });
+    const allTasks = taskList.map(({ value, taskId }) => {
+      const task = createTask(value, taskId);
+      taskListElement.appendChild(task);
     });
-    deleteTask.addEventListener('click', () => {
-      modalHolder = modalElement(
-        'Delete Task',
-        value,
-        deleteTaskFn,
-        deleteId,
-        deleteTaskElement
-      );
-      body.appendChild(modalHolder);
+    addTaskInputMain.value = '';
+    taskList.forEach(({ taskId, value }) => {
+      const editTask = document.getElementById(`edit${taskId}`);
+      const deleteTask = document.getElementById(`delete${taskId}`);
+      const editId = editTask.id;
+      const deleteId = deleteTask.id;
+      editTask.addEventListener('click', () => {
+        modalHolder = modalElement(
+          `Edit Task`,
+          value,
+          editTaskFn,
+          editId,
+          editTaskElement
+        );
+        body.appendChild(modalHolder);
+      });
+      deleteTask.addEventListener('click', () => {
+        modalHolder = modalElement(
+          'Delete Task',
+          value,
+          deleteTaskFn,
+          deleteId,
+          deleteTaskElement
+        );
+        body.appendChild(modalHolder);
+      });
     });
-  });
+  } else {
+    addTaskInputMain.classList.add('border-red-400');
+    const errorSpan = document.createElement('span');
+    errorSpan.className = 'absolute -bottom-6 text-sm left-2 text-red-400';
+    errorSpan.textContent = 'Please provide a task';
+    errorSpan.id = 'errorInput';
+    divForm.appendChild(errorSpan);
+    divForm.classList.add('mb-10');
+  }
 });
 
 const createSVGElement = (path, svgId, colors, viewBox) => {

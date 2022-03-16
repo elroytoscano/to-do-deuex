@@ -14,21 +14,16 @@
     />
   </head>
   <body class="grid place-items-center" id="body">
-    <header>
-      <h1 style="left: -10000px; top: -100000px; position: absolute">
-        To Do App
-      </h1>
-    </header>
     <main class="mt-32">
-      <h2 class="text-center text-4xl font-semibold mb-8">To Do App</h2>
+      <h1 class="text-center text-4xl font-semibold mb-8">To Do App</h1>
       <form id="form">
-        <div class="mb-4 flex justify-between gap-x-4">
+        <div id="inputForm" class="mb-4 flex justify-between gap-x-4 relative">
           <input
             type="text"
-            class="block w-full px-3 py-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            class="block w-full px-3 py-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none relative"
             id="inputTask"
             placeholder="Add Task"
-            required
+            required="true"
           />
           <button
             type="submit"
