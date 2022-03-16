@@ -8,9 +8,9 @@ const divForm = document.querySelector('#inputForm');
 let modalHolder;
 let taskList = [];
 
-// new Sortable(taskListElement, {
-//   animation: 350,
-// });
+new Sortable(taskListElement, {
+  animation: 350,
+});
 
 const completeTask = (taskId) => {
   const task = document.getElementById(`taskId${taskId}`);
